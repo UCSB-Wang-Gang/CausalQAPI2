@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,40 +10,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_220_319_205_155) do
+ActiveRecord::Schema.define(version: 2022_03_19_205527) do
+
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'articles', force: :cascade do |t|
-    t.string 'title'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "articles", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table 'hits', force: :cascade do |t|
-    t.string 'question'
-    t.string 'answer'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "hits", force: :cascade do |t|
+    t.string "question"
+    t.string "answer"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "worker_id"
+    t.bigint "article_id"
+    t.index ["article_id"], name: "index_hits_on_article_id"
+    t.index ["worker_id"], name: "index_hits_on_worker_id"
   end
 
-  create_table 'passages', force: :cascade do |t|
-    t.string 'passage'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "passages", force: :cascade do |t|
+    t.string "passage"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "article_id"
+    t.index ["article_id"], name: "index_passages_on_article_id"
   end
 
-  create_table 'patterns', force: :cascade do |t|
-    t.integer 'index'
-    t.integer 'length'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "patterns", force: :cascade do |t|
+    t.integer "index"
+    t.integer "length"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "passage_id"
+    t.index ["passage_id"], name: "index_patterns_on_passage_id"
   end
 
-  create_table 'workers', force: :cascade do |t|
-    t.string 'worker_id'
-    t.integer 'quiz_attempts'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "workers", force: :cascade do |t|
+    t.string "worker_id"
+    t.integer "quiz_attempts"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
+
+  add_foreign_key "hits", "articles"
+  add_foreign_key "hits", "workers"
+  add_foreign_key "passages", "articles"
+  add_foreign_key "patterns", "passages"
 end
