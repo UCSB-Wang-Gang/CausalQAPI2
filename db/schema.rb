@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_19_205527) do
+ActiveRecord::Schema.define(version: 2022_03_28_055535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 2022_03_19_205527) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "worker_id"
     t.bigint "article_id"
+    t.string "explanation"
+    t.string "assignment_id"
     t.index ["article_id"], name: "index_hits_on_article_id"
     t.index ["worker_id"], name: "index_hits_on_worker_id"
   end
@@ -54,6 +56,9 @@ ActiveRecord::Schema.define(version: 2022_03_19_205527) do
     t.integer "quiz_attempts"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "submissions", default: 0
+    t.integer "submissions_since_check", default: 0
+    t.decimal "grammar_score"
   end
 
   add_foreign_key "hits", "articles"
