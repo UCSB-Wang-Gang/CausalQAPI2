@@ -1,3 +1,3 @@
 # CausalQAPI2
 
-- ![ERD](https://i.imgur.com/hPs0MVr.png)
+- ![ERD](https://i.imgur.com/rCm8Pxy.png)
