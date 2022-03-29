@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     post '/reset_last_check', action: :reset_last_check, controller: :worker
 
     post '/add_passage', action: :add_passage, controller: :passage
+    get '/get_passage', action: :return_passage, controller: :passage
   end
 end

@@ -13,6 +13,15 @@ module Api
       render json: passage
     end
 
+    def return_passage
+      passage = Passage.order(Arel.sql('RANDOM()')).first
+      return render json: { error: 'no passages found' }, status: :not_found unless passage.present?
+
+      article = Article.find(passage.article_id)
+      render json: { passage: passage, article: article.title }
+      Passage.destroy(passage.id)
+    end
+
     private
 
     def passage_params
