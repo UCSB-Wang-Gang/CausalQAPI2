@@ -11,6 +11,18 @@ module Api
       render json: hit
     end
 
+    def worker_hits
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      return render json: { error: 'worker not found' } unless worker.present?
+
+      hits = Hit.where(worker_id: worker.id)
+      if hits.present?
+        render json: hits
+      else
+        render json: { error: 'no hits associated with worker_id' }, status: :not_found
+      end
+    end
+
     private
 
     def hit_params
