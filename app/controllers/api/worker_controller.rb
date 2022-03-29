@@ -14,6 +14,15 @@ module Api
       end
     end
 
+    def review_top_k
+      workers = Worker.order(params['criteria'] + " DESC").limit(params['num_workers'])
+      if workers.present?
+        render json: workers
+      else
+        render json: { error: 'review_top_k error' }
+      end
+    end
+
     private
 
     def worker_params
