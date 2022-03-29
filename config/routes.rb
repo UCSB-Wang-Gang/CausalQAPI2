@@ -6,5 +6,7 @@ Rails.application.routes.draw do
     get '/get_hits/:worker_id', action: :worker_hits, controller: :hit
 
     post '/reset_last_check', action: :reset_last_check, controller: :worker
+
+    post '/add_passage', action: :add_passage, controller: :passage
   end
 end
