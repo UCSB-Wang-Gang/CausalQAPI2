@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_28_055535) do
+ActiveRecord::Schema.define(version: 2022_03_29_072359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,16 +39,8 @@ ActiveRecord::Schema.define(version: 2022_03_28_055535) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "article_id"
+    t.string "patterns", default: ""
     t.index ["article_id"], name: "index_passages_on_article_id"
-  end
-
-  create_table "patterns", force: :cascade do |t|
-    t.integer "index"
-    t.integer "length"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "passage_id"
-    t.index ["passage_id"], name: "index_patterns_on_passage_id"
   end
 
   create_table "workers", force: :cascade do |t|
@@ -64,5 +56,4 @@ ActiveRecord::Schema.define(version: 2022_03_28_055535) do
   add_foreign_key "hits", "articles"
   add_foreign_key "hits", "workers"
   add_foreign_key "passages", "articles"
-  add_foreign_key "patterns", "passages"
 end
