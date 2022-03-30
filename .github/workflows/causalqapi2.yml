@@ -1,4 +1,4 @@
-name: Picmate
+name: CausalQAPI2
 'on': [push]
 
 jobs:
