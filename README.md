@@ -16,5 +16,28 @@ export POSTGRESQL_USERNAME=YOUR_USERNAME
 export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ```
 
+## ERD
+![ERD](https://i.imgur.com/sBC5Btc.png)
+
+## 📍 Endpoints
+- **GET** `/`
+  - Landing page test
+- **GET** `/api/get_hits/:worker_id`
+  - Returns all hits from given `worker_id`
+- **POST** `/api/add_hit`
+  - Creates a new hit, using the specified hit
+- **GET** `get_top_k/:num_workers/:criteria`
+  - Returns the top `num_workers` workers based on the specified `criteria`
+- **GET** `/api/worker_qualification/:worker_id`
+  - Returns the given `worker_id`'s qualification
+- **POST** `/api/reset_last_check/:worker_id`
+  - Resets the number of hits submitted since last check for the given `worker_id`
+- **POST** `/qualify_worker/:worker_id`
+  - Qualifies the given `worker_id`
+- **GET** `/api/get_passage`
+  - Returns a random passage and deletes it from the database
+- **POST** `/api/add_passage`
+  - Adds a new passage to the database
+
 ## 💡 Feature Requests
 If more features are needed, please open an issue on this repository. 
