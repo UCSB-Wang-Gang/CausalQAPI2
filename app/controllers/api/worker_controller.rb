@@ -31,6 +31,13 @@ module Api
       render json: worker
     end
 
+    def worker_qualification
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      return render json: { qualified: false, error: 'Worker not found' }, status: :not_found unless worker.present?
+
+      render json: { qualified: worker.qualified }
+    end
+
     private
 
     def worker_params
