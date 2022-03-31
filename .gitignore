@@ -27,3 +27,5 @@
 /config/master.key
 
 erd.pdf
+
+.env
