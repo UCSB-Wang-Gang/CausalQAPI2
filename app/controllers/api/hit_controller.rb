@@ -4,7 +4,10 @@ module Api
   # Controller for HITs
   class HitController < ApplicationController
     def add_hit
-      worker = create_worker(hit_params[:worker_id])
+      worker = Worker.find_by(worker_id: hit_params[:worker_id])
+      return render json: { error: 'worker not found' } unless worker.present?
+      return render json: { error: 'worker not qualified' } unless worker.qualified
+
       article = create_article(hit_params[:article])
       hit = create_hit(worker, article)
       increase_submission_count(worker)
@@ -27,12 +30,6 @@ module Api
 
     def hit_params
       params.require(:hit).permit(:assignment_id, :worker_id, :question, :answer, :article, :explanation)
-    end
-
-    def create_worker(worker_id)
-      worker = Worker.find_by(worker_id: worker_id)
-      worker = Worker.create(worker_id: worker_id) unless worker.present?
-      worker
     end
 
     def create_article(article_title)
