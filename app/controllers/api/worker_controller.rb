@@ -23,6 +23,14 @@ module Api
       end
     end
 
+    def qualify_worker
+      worker = Worker.find_by(worker_id: worker_params[:worker_id])
+      worker = Worker.create(worker_id: worker_params[:worker_id]) unless worker.present?
+      worker.qualified = true
+      worker.save
+      render json: worker
+    end
+
     private
 
     def worker_params
