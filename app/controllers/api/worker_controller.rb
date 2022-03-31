@@ -4,7 +4,7 @@ module Api
   # Controller for Workers
   class WorkerController < ApplicationController
     def reset_last_check
-      worker = Worker.find_by(worker_id: worker_params[:worker_id])
+      worker = Worker.find_by(worker_id: params[:worker_id])
       if worker.present?
         worker.submissions_since_check = 0
         worker.save
@@ -24,8 +24,8 @@ module Api
     end
 
     def qualify_worker
-      worker = Worker.find_by(worker_id: worker_params[:worker_id])
-      worker = Worker.create(worker_id: worker_params[:worker_id]) unless worker.present?
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      worker = Worker.create(worker_id: params[:worker_id]) unless worker.present?
       worker.qualified = true
       worker.save
       render json: worker
@@ -36,12 +36,6 @@ module Api
       return render json: { qualified: false, error: 'Worker not found' }, status: :not_found unless worker.present?
 
       render json: { qualified: worker.qualified }
-    end
-
-    private
-
-    def worker_params
-      params.require(:worker).permit(:worker_id)
     end
   end
 end
