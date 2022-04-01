@@ -19,7 +19,7 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ## ERD
 ![ERD](https://i.imgur.com/sBC5Btc.png)
 
-CausalQAPI2 Diagram
+
 ```mermaid
 classDiagram
     Worker --|> Hit
