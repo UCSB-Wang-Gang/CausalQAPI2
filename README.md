@@ -19,6 +19,35 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ## ERD
 ![ERD](https://i.imgur.com/sBC5Btc.png)
 
+CausalQAPI2 Diagram
+```mermaid
+classDiagram
+    Worker --|> Hit
+    Article --|> Hit
+    Article --|> Passage
+    Worker : +double Grammar_score
+    Worker : +boolean Qualified
+    Worker: +integer Quiz_attempts
+    Worker: +integer Submissions
+    Worker: +integer Submission_since_check
+
+    class Article{
+      +string Title
+    }
+
+    class Hit{
+      +string Answer
+      +string Assignment_id
+      +string Explanation
+      +string Question
+    }
+    class Passage{
+      +string Passage
+      +string Patterns
+    }
+```
+
+
 ## 📍 Endpoints
 - **GET** `/`
   - Landing page test
