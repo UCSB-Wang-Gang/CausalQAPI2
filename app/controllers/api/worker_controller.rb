@@ -27,6 +27,7 @@ module Api
       worker = Worker.find_by(worker_id: params[:worker_id])
       worker = Worker.create(worker_id: params[:worker_id]) unless worker.present?
       worker.qualified = true
+      worker.quiz_attempts = params[:quiz_attempts]
       worker.save
       render json: worker
     end
