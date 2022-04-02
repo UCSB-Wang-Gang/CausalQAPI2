@@ -19,35 +19,6 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ## ERD
 ![ERD](https://i.imgur.com/sBC5Btc.png)
 
-
-```mermaid
-classDiagram
-    Worker --|> Hit
-    Article --|> Hit
-    Article --|> Passage
-    Worker : +double Grammar_score
-    Worker : +boolean Qualified
-    Worker: +integer Quiz_attempts
-    Worker: +integer Submissions
-    Worker: +integer Submission_since_check
-
-    class Article{
-      +string Title
-    }
-
-    class Hit{
-      +string Answer
-      +string Assignment_id
-      +string Explanation
-      +string Question
-    }
-    class Passage{
-      +string Passage
-      +string Patterns
-    }
-```
-
-
 ## 📍 Endpoints
 - **GET** `/`
   - Landing page test
@@ -61,8 +32,8 @@ classDiagram
   - Returns the given `worker_id`'s qualification
 - **POST** `/api/reset_last_check/:worker_id`
   - Resets the number of hits submitted since last check for the given `worker_id`
-- **POST** `/qualify_worker/:worker_id`
-  - Qualifies the given `worker_id`
+- **POST** `/qualify_worker/:worker_id/:quiz_attempts`
+  - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **GET** `/api/get_passage`
   - Returns a random passage and deletes it from the database
 - **POST** `/api/add_passage`
