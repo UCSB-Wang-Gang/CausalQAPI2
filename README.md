@@ -17,7 +17,7 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ```
 
 ## ERD
-![ERD](https://i.imgur.com/sBC5Btc.png)
+![ERD](https://i.imgur.com/mSglYAX.png)
 
 ## 📍 Endpoints
 - **GET** `/`
