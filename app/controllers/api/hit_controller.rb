@@ -9,6 +9,9 @@ module Api
       return render json: { error: 'worker not qualified' } unless worker.qualified
 
       article = create_article(hit_params[:article])
+
+      return render json: { error: 'assignment_id already exists' } if matched_ass
+
       hit = create_hit(worker, article)
       increase_submission_count(worker)
       render json: hit
@@ -27,6 +30,10 @@ module Api
     end
 
     private
+
+    def matched_ass
+      Hit.where(assignment_id: hit_params[:assignment_id]).present?
+    end
 
     def hit_params
       params.require(:hit).permit(:assignment_id, :worker_id, :question, :answer, :article, :explanation, :passage,
