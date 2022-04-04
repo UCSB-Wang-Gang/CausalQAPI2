@@ -15,7 +15,9 @@ module Api
     end
 
     def review_top_k
-      workers = Worker.order("#{params['criteria']} DESC").limit(params['num_workers'])
+      workers = Worker
+                .order("#{params['criteria']} DESC")
+                .limit(params['num_workers'])
       if workers.present?
         render json: workers
       else
@@ -37,6 +39,15 @@ module Api
       return render json: { qualified: false, error: 'Worker not found' }, status: :not_found unless worker.present?
 
       render json: { qualified: worker.qualified }
+    end
+
+    def update_checked_status
+      puts params[:worker_id]
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      puts worker
+      worker.checked_status = params[:new_status]
+      worker.save
+      render json: worker
     end
   end
 end
