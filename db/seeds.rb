@@ -22,7 +22,6 @@
 # ])
 
 seed_art = Article.create(
-<<<<<<< HEAD
   title: 'seed article',
   created_at: DateTime.new(2022, 4, 4, 8),
   updated_at: DateTime.new(2022, 4, 4, 8)
