@@ -22,6 +22,10 @@ module Api
       Passage.destroy(passage.id)
     end
 
+    def count_passages
+      render json: { num_passages: Passage.all.count }
+    end
+
     private
 
     def passage_params
