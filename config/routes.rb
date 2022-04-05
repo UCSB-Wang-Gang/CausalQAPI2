@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post '/update_checked_status/:worker_id/:new_status', action: :update_checked_status, controller: :worker
 
     get '/get_passage', action: :return_passage, controller: :passage
+    get '/count_passages', action: :count_passages, controller: :passage
     post '/add_passage', action: :add_passage, controller: :passage
   end
 end
