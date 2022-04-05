@@ -21,6 +21,7 @@
 #   }
 # ])
 
+
 seed_art = Article.create(
   title: "seed article",
   created_at:  DateTime.new(2022, 4, 4, 8),
@@ -31,30 +32,69 @@ Passage.create(
   passage: "this is a seed passage",
   created_at:  DateTime.new(2022, 4, 4, 8),
   updated_at:  DateTime.new(2022, 4, 4, 8),
-  article_id: 0,
+  article_id: seed_art.id,
 )
 
 seed_worker = Worker.create(
-  {
-    worker_id: "seed0",
-    quiz_attempts: 1,
-    qualified: true,
-    created_at:  DateTime.new(2022, 4, 4, 8),
-    updated_at:  DateTime.new(2022, 4, 4, 8),
-    grammar_score: 0,
-  }
-)
-
-seed_hit = Hit.create(
-  question: "q",
-  answer: "a",
+  worker_id: "seed0",
+  quiz_attempts: 1,
+  qualified: true,
   created_at:  DateTime.new(2022, 4, 4, 8),
   updated_at:  DateTime.new(2022, 4, 4, 8),
-  worker_id: seed_worker.id,
-  article_id: seed_art.id,
-  explanation: "[{\"entry\": \"dummy entry\"}]",
-  assignment_id: "seed_hit0",
-  cause: "cause 0",
-  effect: "effect 0",
-  passage: "passage 0",
+  grammar_score: 0,
+  submissions: 2,
+  submissions_since_check: 2,
 )
+
+dummy_worker = Worker.create(
+  worker_id: "dummy1",
+  quiz_attempts: 8,
+  qualified: false,
+  created_at:  DateTime.new(2022, 4, 4, 8),
+  updated_at:  DateTime.new(2022, 4, 4, 8),
+  grammar_score: -200,
+  submissions: 1,
+  submissions_since_check: 1
+)
+
+Hit.create([
+  {
+    question: "seed Q1",
+    answer: "seed A1",
+    created_at:  DateTime.new(2022, 4, 4, 8),
+    updated_at:  DateTime.new(2022, 4, 4, 8),
+    worker_id: seed_worker.id,
+    article_id: seed_art.id,
+    explanation: "[{\"entry\": \"dummy entry\"}]",
+    assignment_id: "seed_hit1",
+    cause: "seed C1",
+    effect: "seed E1",
+    passage: "seed P1",
+  },
+  {
+    question: "seed Q2",
+    answer: "seed A2",
+    created_at:  DateTime.new(2022, 4, 4, 8),
+    updated_at:  DateTime.new(2022, 4, 4, 8),
+    worker_id: seed_worker.id,
+    article_id: seed_art.id,
+    explanation: "[{\"entry\": \"dummy entry\"}]",
+    assignment_id: "seed_hit2",
+    cause: "seed C2",
+    effect: "seed E2",
+    passage: "seed P2",
+  },
+  {
+    question: "dummy Q1",
+    answer: "dummy A1",
+    created_at:  DateTime.new(2022, 4, 4, 8),
+    updated_at:  DateTime.new(2022, 4, 4, 8),
+    worker_id: dummy_worker.id,
+    article_id: seed_art.id,
+    explanation: "[{\"entry\": \"dummy entry\"}]",
+    assignment_id: "dummy_hit",
+    cause: "dummy C1",
+    effect: "dummy E1",
+    passage: "dummy P1",
+  },
+])
