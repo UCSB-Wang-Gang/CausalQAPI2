@@ -6,13 +6,12 @@ module Api
     def add_hit
       worker = Worker.find_by(worker_id: hit_params[:worker_id])
       return render json: { error: 'worker not found' } unless worker.present?
-      return render json: { error: 'worker not qualified' } unless worker.qualified
-
-      article = create_article(hit_params[:article])
-
       return render json: { error: 'assignment_id already exists' } if matched_ass
 
-      hit = create_hit(worker, article)
+      # remove passage on submit
+      handle_passage_delete(hit_params[:passage_id])
+
+      hit = create_hit(worker, create_article(hit_params[:article]))
       increase_submission_count(worker)
       render json: hit
     end
@@ -31,13 +30,19 @@ module Api
 
     private
 
+    def handle_passage_delete(pass_id)
+      puts pass_id
+      passage = Passage.find_by(id: pass_id)
+      Passage.destroy(pass_id) if passage.present?
+    end
+
     def matched_ass
       Hit.where(assignment_id: hit_params[:assignment_id]).present?
     end
 
     def hit_params
       params.require(:hit).permit(:assignment_id, :worker_id, :question, :answer, :article, :explanation, :passage,
-                                  :cause, :effect)
+                                  :cause, :effect, :passage_id)
     end
 
     def create_article(article_title)
