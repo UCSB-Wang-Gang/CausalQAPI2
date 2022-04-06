@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_04_070757) do
+ActiveRecord::Schema.define(version: 2022_04_06_044457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2022_04_04_070757) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "article_id"
     t.string "patterns", default: ""
+    t.integer "retrieved", default: 0
     t.index ["article_id"], name: "index_passages_on_article_id"
   end
 
