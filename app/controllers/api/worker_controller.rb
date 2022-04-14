@@ -49,5 +49,13 @@ module Api
       worker.save
       render json: worker
     end
+
+    def grab_worker
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      return render json: { qualified: false, error: 'Worker not found' }, status: :not_found unless worker.present?
+
+      render json: { worker_info: worker }
+    end
+      
   end
 end
