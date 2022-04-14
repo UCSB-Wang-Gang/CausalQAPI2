@@ -25,6 +25,12 @@ module Api
       end
     end
 
+    def speed_bumped
+      workers = Worker
+                .where(checked_status: 'limited')
+      render json: workers
+    end
+
     def qualify_worker
       worker = Worker.find_by(worker_id: params[:worker_id])
       worker = Worker.create(worker_id: params[:worker_id]) unless worker.present?
@@ -56,6 +62,5 @@ module Api
 
       render json: { worker_info: worker }
     end
-      
   end
 end
