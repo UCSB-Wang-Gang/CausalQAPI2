@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_06_044457) do
+ActiveRecord::Schema.define(version: 2022_04_22_060106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,14 +21,22 @@ ActiveRecord::Schema.define(version: 2022_04_06_044457) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "explanations", force: :cascade do |t|
+    t.string "explanation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "assignment_id"
+    t.bigint "worker_id"
+    t.bigint "hit_id"
+    t.index ["hit_id"], name: "index_explanations_on_hit_id"
+    t.index ["worker_id"], name: "index_explanations_on_worker_id"
+  end
+
   create_table "hits", force: :cascade do |t|
-    t.string "question"
-    t.string "answer"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "worker_id"
     t.bigint "article_id"
-    t.string "explanation"
     t.string "assignment_id"
     t.string "cause"
     t.string "effect"
@@ -59,6 +67,8 @@ ActiveRecord::Schema.define(version: 2022_04_06_044457) do
     t.string "checked_status", default: "unchecked"
   end
 
+  add_foreign_key "explanations", "hits"
+  add_foreign_key "explanations", "workers"
   add_foreign_key "hits", "articles"
   add_foreign_key "hits", "workers"
   add_foreign_key "passages", "articles"
