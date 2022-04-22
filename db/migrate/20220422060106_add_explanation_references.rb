@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Add references and additional column to explanation
 class AddExplanationReferences < ActiveRecord::Migration[6.1]
   def change
     add_column :explanations, :assignment_id, :string
