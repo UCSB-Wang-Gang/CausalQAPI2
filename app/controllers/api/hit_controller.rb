@@ -41,7 +41,7 @@ module Api
     end
 
     def hit_params
-      params.require(:hit).permit(:assignment_id, :worker_id, :question, :answer, :article, :explanation, :passage,
+      params.require(:hit).permit(:assignment_id, :worker_id, :article, :passage,
                                   :cause, :effect, :passage_id)
     end
 
@@ -51,21 +51,16 @@ module Api
       article
     end
 
-    # rubocop:disable Metrics/MethodLength
     def create_hit(worker, article)
       Hit.create(
         worker_id: worker.id,
         article_id: article.id,
         assignment_id: hit_params[:assignment_id],
-        question: hit_params[:question],
-        answer: hit_params[:answer],
-        explanation: hit_params[:explanation],
         passage: hit_params[:passage],
         cause: hit_params[:cause],
         effect: hit_params[:effect]
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
     def increase_submission_count(worker)
       worker.submissions = worker.submissions + 1
