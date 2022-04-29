@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     get '/get_hits/:worker_id', action: :worker_hits, controller: :hit
     post '/add_hit', action: :add_hit, controller: :hit
 
+    post '/add_explanation', action: :add_explanation, controller: :explanation
+
     get '/get_top_k/:num_workers/:criteria', action: :review_top_k, controller: :worker
     get '/get_speed_bumped', action: :speed_bumped, controller: :worker
     get '/worker_qualification/:worker_id', action: :worker_qualification, controller: :worker
