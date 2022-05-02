@@ -63,9 +63,9 @@ module Api
     end
 
     def increase_submission_count(worker)
-      worker.submissions = worker.submissions + 1
-      worker.checked_status = 'limited' if (worker.submissions >= 20) && (worker.checked_status == 'unchecked')
-      worker.submissions_since_check = worker.submissions_since_check + 1
+      worker.hit_submits = worker.hit_submits + 1
+      worker.checked_status = 'limited' if (worker.hit_submits >= 20) && (worker.checked_status == 'unchecked')
+      worker.hits_since_check = worker.hits_since_check + 1
       worker.save
     end
   end
