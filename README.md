@@ -30,8 +30,10 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
   - Returns the top `num_workers` workers based on the specified `criteria`
 - **GET** `/api/worker_qualification/:worker_id`
   - Returns the given `worker_id`'s qualification
-- **POST** `/api/reset_last_check/:worker_id`
+- **POST** `/api/reset_last_check/hits/:worker_id`
   - Resets the number of hits submitted since last check for the given `worker_id`
+- **POST** `/api/reset_last_check/explanations/:worker_id`
+  - Resets the number of explanations submitted since last check for the given `worker_id`
 - **POST** `/qualify_worker/:worker_id/:quiz_attempts`
   - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **GET** `/api/get_passage`

@@ -3,10 +3,21 @@
 module Api
   # Controller for Workers
   class WorkerController < ApplicationController
-    def reset_last_check
+    def reset_last_hits_check
       worker = Worker.find_by(worker_id: params[:worker_id])
       if worker.present?
-        worker.submissions_since_check = 0
+        worker.hits_since_check = 0
+        worker.save
+        render json: worker
+      else
+        render json: { error: 'Worker not found' }, status: :not_found
+      end
+    end
+
+    def reset_last_explanations_check
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      if worker.present?
+        worker.explanations_since_check = 0
         worker.save
         render json: worker
       else
