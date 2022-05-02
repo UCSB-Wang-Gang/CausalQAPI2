@@ -13,6 +13,18 @@ module Api
       render json: explanation
     end
 
+    def worker_explanations
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      return render json: { error: 'worker not found' } unless worker.present?
+
+      explanations = Hit.where(worker_id: worker.id)
+      if explanations.present?
+        render json: explanations
+      else
+        render json: { error: 'no explanations associated with worker_id' }, status: :not_found
+      end
+    end
+
     private
 
     def increase_submission_count(worker)
