@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   namespace :api do
     get '/get_hits/:worker_id', action: :worker_hits, controller: :hit
     post '/add_hit', action: :add_hit, controller: :hit
+    get '/get_hit', action: :return_hit, controller: :hit
 
+    get '/get_explanations/:worker_id', action: :worker_explanations, controller: :explanation
     post '/add_explanation', action: :add_explanation, controller: :explanation
 
     get '/get_top_k/:num_workers/:criteria', action: :review_top_k, controller: :worker
