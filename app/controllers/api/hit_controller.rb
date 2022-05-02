@@ -28,6 +28,13 @@ module Api
       end
     end
 
+    def return_hit
+      hit = Hit.where.missing(:explanation).order(Arel.sql('RANDOM()')).first
+      return render json: { error: 'no hits found' }, status: :not_found unless hit.present?
+
+      render json: hit
+    end
+
     private
 
     def handle_passage_delete(pass_id)
