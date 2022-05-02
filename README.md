@@ -24,6 +24,8 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
   - Landing page test
 - **GET** `/api/get_hits/:worker_id`
   - Returns all hits from given `worker_id`
+- **GET** `/api/get_explanations/:worker_id`
+  - Returns all explanations from given `worker_id`
 - **POST** `/api/add_hit`
   - Creates a new hit, using the specified hit
 - **GET** `get_top_k/:num_workers/:criteria`
@@ -38,6 +40,8 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
   - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **GET** `/api/get_passage`
   - Returns a random passage and deletes it from the database
+- **GET** `/api/get_hit`
+  - Returns a random hit that doesn't have an explanation attached to it
 - **POST** `/api/add_passage`
   - Adds a new passage to the database
 
