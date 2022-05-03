@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_03_002955) do
+ActiveRecord::Schema.define(version: 2022_05_03_095134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 2022_05_03_002955) do
     t.decimal "grammar_score"
     t.boolean "qualified", default: false
     t.string "checked_status", default: "unchecked"
-    t.integer "explanation_submits"
-    t.integer "explanations_since_check"
+    t.integer "explanation_submits", default: 0
+    t.integer "explanations_since_check", default: 0
   end
 
   add_foreign_key "explanations", "hits"
