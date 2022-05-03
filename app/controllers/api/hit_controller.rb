@@ -32,7 +32,7 @@ module Api
       hit = Hit.where.missing(:explanation).order(Arel.sql('RANDOM()')).first
       return render json: { error: 'no hits found' }, status: :not_found unless hit.present?
 
-      render json: hit
+      render json: { hit: hit, article: Article.find(hit.article_id) }
     end
 
     private
