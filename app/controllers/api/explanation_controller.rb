@@ -43,6 +43,10 @@ module Api
       )
     end
 
+    def matched_ass
+      Explanation.where(assignment_id: explanation_params[:assignment_id]).present?
+    end
+
     def explanation_params
       params.require(:explanation).permit(:explanation, :worker_id, :hit_id, :assignment_id)
     end
