@@ -37,7 +37,7 @@ List of endpoints with their functionalities.
   - Returns all hits from given `worker_id`
 - **GET** `/api/get_explanations/:worker_id`
   - Returns all explanations from given `worker_id`
-- **GET** `get_top_k/:num_workers/:criteria`
+- **GET** `/api/get_top_k/:num_workers/:criteria`
   - Returns the top `num_workers` workers based on the specified `criteria`
 - **POST** `/api/reset_last_check/hits/:worker_id`
   - Resets the number of hits submitted since last check for the given `worker_id`
@@ -47,7 +47,7 @@ List of endpoints with their functionalities.
 ### ⚙️ Miscellaneous/Deprecated
 - **GET** `/`
   - Landing page test
-- **POST** `/qualify_worker/:worker_id/:quiz_attempts`
+- **POST** `/api/qualify_worker/:worker_id/:quiz_attempts`
   - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **POST** `/api/add_passage`
   - Adds a new passage to the database
