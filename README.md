@@ -17,31 +17,39 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ```
 
 ## ERD
-![ERD](https://i.imgur.com/mSglYAX.png)
+![ERD](https://i.imgur.com/MwktPQn.png)
 
 ## 📍 Endpoints
+List of endpoints with their functionalities. 
+
 - **GET** `/`
   - Landing page test
-- **GET** `/api/get_hits/:worker_id`
-  - Returns all hits from given `worker_id`
-- **GET** `/api/get_explanations/:worker_id`
-  - Returns all explanations from given `worker_id`
+
+### 📉 MTurk
 - **POST** `/api/add_hit`
   - Creates a new hit, using the specified hit
-- **GET** `get_top_k/:num_workers/:criteria`
-  - Returns the top `num_workers` workers based on the specified `criteria`
 - **GET** `/api/worker_qualification/:worker_id`
   - Returns the given `worker_id`'s qualification
-- **POST** `/api/reset_last_check/hits/:worker_id`
-  - Resets the number of hits submitted since last check for the given `worker_id`
-- **POST** `/api/reset_last_check/explanations/:worker_id`
-  - Resets the number of explanations submitted since last check for the given `worker_id`
-- **POST** `/qualify_worker/:worker_id/:quiz_attempts`
-  - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **GET** `/api/get_passage`
   - Returns a random passage and deletes it from the database
 - **GET** `/api/get_hit`
   - Returns a random hit that doesn't have an explanation attached to it
+
+### ✅ Validation
+- **GET** `/api/get_hits/:worker_id`
+  - Returns all hits from given `worker_id`
+- **GET** `/api/get_explanations/:worker_id`
+  - Returns all explanations from given `worker_id`
+- **GET** `get_top_k/:num_workers/:criteria`
+  - Returns the top `num_workers` workers based on the specified `criteria`
+- **POST** `/api/reset_last_check/hits/:worker_id`
+  - Resets the number of hits submitted since last check for the given `worker_id`
+- **POST** `/api/reset_last_check/explanations/:worker_id`
+  - Resets the number of explanations submitted since last check for the given `worker_id`
+
+### ⚙️ Miscellaneous/Deprecated
+- **POST** `/qualify_worker/:worker_id/:quiz_attempts`
+  - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **POST** `/api/add_passage`
   - Adds a new passage to the database
 
