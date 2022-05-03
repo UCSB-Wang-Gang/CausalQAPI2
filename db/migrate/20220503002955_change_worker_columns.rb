@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Change column data type for workers
 class ChangeWorkerColumns < ActiveRecord::Migration[6.1]
   def change
