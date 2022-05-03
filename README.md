@@ -22,9 +22,6 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ## 📍 Endpoints
 List of endpoints with their functionalities. 
 
-- **GET** `/`
-  - Landing page test
-
 ### 📉 MTurk
 - **POST** `/api/add_hit`
   - Creates a new hit, using the specified hit
@@ -48,6 +45,8 @@ List of endpoints with their functionalities.
   - Resets the number of explanations submitted since last check for the given `worker_id`
 
 ### ⚙️ Miscellaneous/Deprecated
+- **GET** `/`
+  - Landing page test
 - **POST** `/qualify_worker/:worker_id/:quiz_attempts`
   - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **POST** `/api/add_passage`
