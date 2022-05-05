@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     get '/get_hits/:worker_id', action: :worker_hits, controller: :hit
     post '/add_hit', action: :add_hit, controller: :hit
-    get '/get_hit/:eval_status', action: :return_hit, controller: :hit
+    get '/get_hit', action: :return_hit, controller: :hit
     get '/get_hit_metrics', action: :return_s1_info, controller: :hit
     post '/eval_hit/:hit_id/:new_eval_field', action: :update_hit_eval, controller: :hit
 
