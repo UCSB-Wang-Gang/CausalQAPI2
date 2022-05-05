@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_05_05_062039) do
     t.bigint "article_id"
     t.string "patterns", default: ""
     t.integer "retrieved", default: 0
+    t.string "state", default: "unchecked"
     t.index ["article_id"], name: "index_passages_on_article_id"
   end
 
@@ -67,7 +68,6 @@ ActiveRecord::Schema.define(version: 2022_05_05_062039) do
     t.decimal "grammar_score"
     t.boolean "qualified", default: false
     t.string "checked_status", default: "unchecked"
-    t.string "feedback"
     t.integer "explanation_submits", default: 0
     t.integer "explanations_since_check", default: 0
     t.integer "bad_s1_count", default: 0
