@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_05_053832) do
+ActiveRecord::Schema.define(version: 2022_05_05_062039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2022_05_05_053832) do
     t.string "effect"
     t.string "passage"
     t.string "question"
+    t.string "eval"
     t.index ["article_id"], name: "index_hits_on_article_id"
     t.index ["worker_id"], name: "index_hits_on_worker_id"
   end
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_05_05_053832) do
     t.bigint "article_id"
     t.string "patterns", default: ""
     t.integer "retrieved", default: 0
+    t.string "state", default: "unchecked"
     t.index ["article_id"], name: "index_passages_on_article_id"
   end
 
@@ -66,9 +68,9 @@ ActiveRecord::Schema.define(version: 2022_05_05_053832) do
     t.decimal "grammar_score"
     t.boolean "qualified", default: false
     t.string "checked_status", default: "unchecked"
-    t.string "feedback"
     t.integer "explanation_submits", default: 0
     t.integer "explanations_since_check", default: 0
+    t.integer "bad_s1_count", default: 0
   end
 
   add_foreign_key "explanations", "hits"
