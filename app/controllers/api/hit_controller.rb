@@ -29,13 +29,48 @@ module Api
     end
 
     def return_hit
-      hit = Hit.where.missing(:explanation).order(Arel.sql('RANDOM()')).first
+      candidates = Hit.where.missing(:explanation)
+      candidates = candidates.where(eval: params[:eval_status] == 'null' ? nil : params[:eval_status])
+      hit = candidates.order(Arel.sql('RANDOM()')).first
       return render json: { error: 'no hits found' }, status: :not_found unless hit.present?
 
       render json: { hit: hit, article: Article.find(hit.article_id) }
     end
 
+    def return_s1_info
+      render json: {
+        total: Hit.all.count,
+        no_exp: Hit.where.missing(:explanation).count,
+        good: Hit.where(eval: 'good').count,
+        bad: Hit.where(eval: 'bad').count,
+        total_eval: Hit.where.not(eval: nil).count
+      }
+    end
+
+    def update_hit_eval
+      hit = Hit.find_by(id: params[:hit_id])
+      return render json: { error: 'hit not found' } unless hit.present?
+
+      handle_bad_count_update(hit.worker_id, hit.eval, params[:new_eval_field])
+      hit.eval = params[:new_eval_field]
+      hit.save
+      render json: hit
+    end
+
     private
+
+    def handle_bad_count_update(worker_id, old_eval, new_eval)
+      worker = Worker.find_by(id: worker_id)
+      return unless worker.present?
+
+      if old_eval == 'bad' && new_eval != 'bad'
+        worker.bad_s1_count = worker.bad_s1_count - 1
+      elsif old_eval != 'bad' && new_eval == 'bad'
+        worker.bad_s1_count = worker.bad_s1_count + 1
+      end
+
+      worker.save
+    end
 
     def handle_passage_delete(pass_id)
       puts pass_id
