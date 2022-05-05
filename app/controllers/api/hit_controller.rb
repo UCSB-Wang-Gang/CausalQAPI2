@@ -29,7 +29,9 @@ module Api
     end
 
     def return_hit
-      hit = Hit.where.missing(:explanation).where(eval: 'good').order(Arel.sql('RANDOM()')).first
+      candidates = Hit.where.missing(:explanation)
+      candidates = candidates.where(eval: params[:eval_status] == 'null' ? nil : params[:eval_status])
+      hit = candidates.order(Arel.sql('RANDOM()')).first
       return render json: { error: 'no hits found' }, status: :not_found unless hit.present?
 
       render json: { hit: hit, article: Article.find(hit.article_id) }
