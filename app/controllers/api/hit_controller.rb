@@ -49,7 +49,7 @@ module Api
 
     def hit_params
       params.require(:hit).permit(:assignment_id, :worker_id, :article, :passage,
-                                  :cause, :effect, :passage_id)
+                                  :cause, :effect, :question, :passage_id)
     end
 
     def create_article(article_title)
@@ -65,7 +65,8 @@ module Api
         assignment_id: hit_params[:assignment_id],
         passage: hit_params[:passage],
         cause: hit_params[:cause],
-        effect: hit_params[:effect]
+        effect: hit_params[:effect],
+        question: hit_params[:question]
       )
     end
 
