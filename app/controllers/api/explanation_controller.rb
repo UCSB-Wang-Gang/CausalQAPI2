@@ -29,7 +29,7 @@ module Api
 
     def increase_submission_count(worker)
       worker.explanation_submits = worker.explanation_submits + 1
-      worker.checked_status = 'limited' if (worker.explanation_submits >= 20) && (worker.checked_status == 'unchecked')
+      worker.bump2 = 'limited' if (worker.explanation_submits >= 20) && (worker.bump2 == 'unchecked')
       worker.explanations_since_check = worker.explanations_since_check + 1
       worker.save
     end
