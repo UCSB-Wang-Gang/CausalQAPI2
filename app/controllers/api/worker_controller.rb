@@ -42,6 +42,12 @@ module Api
       render json: workers
     end
 
+    def bumped2
+      workers = Worker
+                .where(bump2: 'limited')
+      render json: workers
+    end
+
     def qualify_worker
       worker = Worker.find_by(worker_id: params[:worker_id])
       worker = Worker.create(worker_id: params[:worker_id]) unless worker.present?
@@ -59,10 +65,12 @@ module Api
     end
 
     def update_checked_status
-      puts params[:worker_id]
       worker = Worker.find_by(worker_id: params[:worker_id])
-      puts worker
-      worker.checked_status = params[:new_status]
+      if params[:stage_num] == '1'
+        worker.checked_status = params[:new_status]
+      else
+        worker.bump2 = params[:new_status]
+      end
       worker.save
       render json: worker
     end
