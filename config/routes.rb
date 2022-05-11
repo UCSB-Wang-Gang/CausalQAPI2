@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get '/get_hit/:eval_status(/:show_worker_stats)', action: :return_hit, controller: :hit
     get '/get_hit_metrics', action: :return_s1_info, controller: :hit
     post '/eval_hit/:hit_id/:new_eval_field', action: :update_hit_eval, controller: :hit
+    post '/eval_all_s1_by/:worker_id/:new_status', action: :eval_all_s1_by, controller: :hit
 
     get '/get_explanations/:worker_id', action: :worker_explanations, controller: :explanation
     post '/add_explanation', action: :add_explanation, controller: :explanation
