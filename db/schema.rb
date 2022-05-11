@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2022_05_12_040646) do
+=======
+ActiveRecord::Schema.define(version: 2022_05_11_005128) do
+>>>>>>> 24fac97 (added good_s1_count column)
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,10 +80,12 @@ ActiveRecord::Schema.define(version: 2022_05_12_040646) do
     t.decimal "grammar_score"
     t.boolean "qualified", default: false
     t.string "checked_status", default: "unchecked"
+    t.string "feedback"
     t.integer "explanation_submits", default: 0
     t.integer "explanations_since_check", default: 0
     t.integer "bad_s1_count", default: 0
     t.string "bump2", default: "unchecked"
+    t.integer "good_s1_count", default: 0
   end
 
   add_foreign_key "explanations", "hits"
