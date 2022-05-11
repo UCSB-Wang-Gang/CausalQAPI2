@@ -29,12 +29,12 @@ module Api
     end
 
     def return_hit
-      candidates = Hit.where.missing(:explanation)
-      candidates = candidates.where(eval: params[:eval_status] == 'null' ? nil : params[:eval_status])
-      hit = candidates.order(Arel.sql('RANDOM()')).first
+      hit = hit_getter_helper(params[:eval_status])
       return render json: { error: 'no hits found' }, status: :not_found unless hit.present?
 
-      render json: { hit: hit, article: Article.find(hit.article_id) }
+      result = { hit: hit, article: Article.find(hit.article_id) }
+      result[:worker] = Worker.find(hit.worker_id) if params.key?(:show_worker_stats)
+      render json: result
     end
 
     def return_s1_info
@@ -43,6 +43,7 @@ module Api
         no_exp: Hit.where.missing(:explanation).count,
         good: Hit.where(eval: 'good').count,
         bad: Hit.where(eval: 'bad').count,
+        good_no_exp: Hit.where(eval: 'good').where.missing(:explanation).count,
         total_eval: Hit.where.not(eval: nil).count
       }
     end
@@ -69,6 +70,12 @@ module Api
       hit.save
 
       hit
+    end
+
+    def hit_getter_helper(eval_status)
+      candidates = Hit.where.missing(:explanation)
+      candidates = candidates.where(eval: eval_status == 'null' ? nil : eval_status)
+      candidates.order(Arel.sql('RANDOM()')).first
     end
 
     def handle_bad_count_update(worker_id, old_eval, new_eval)
