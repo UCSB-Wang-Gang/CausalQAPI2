@@ -78,16 +78,12 @@ module Api
       candidates.order(Arel.sql('RANDOM()')).first
     end
 
-    def handle_bad_count_update(worker_id, old_eval, new_eval)
+    def update_worker_s1_counts(worker_id, old_eval, new_eval)
       worker = Worker.find_by(id: worker_id)
       return unless worker.present?
 
-      if old_eval == 'bad' && new_eval != 'bad'
-        worker.bad_s1_count = worker.bad_s1_count - 1
-      elsif old_eval != 'bad' && new_eval == 'bad'
-        worker.bad_s1_count = worker.bad_s1_count + 1
-      end
-
+      worker["#{old_eval}_s1_count"] = worker["#{old_eval}_s1_count"] - 1 if old_eval.present?
+      worker["#{new_eval}_s1_count"] = worker["#{new_eval}_s1_count"] + 1
       worker.save
     end
 
