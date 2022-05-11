@@ -56,6 +56,14 @@ module Api
       render json: evaluate_hit(hit, params[:new_eval_field], hit_params[:validator_username])
     end
 
+    def eval_all_s1_by
+      hits = Hit.where(worker_id: params[:worker_id], eval: nil)
+      num = hits.count
+      hits.update_all(eval: params[:new_status])
+      update_worker_s1_counts(params[:worker_id], nil, params[:new_status], num)
+      render json: { num_eval: num }
+    end
+
     private
 
     def evaluate_hit(hit, eval_status, validator_username)
@@ -78,12 +86,12 @@ module Api
       candidates.order(Arel.sql('RANDOM()')).first
     end
 
-    def update_worker_s1_counts(worker_id, old_eval, new_eval)
+    def update_worker_s1_counts(worker_id, old_eval, new_eval, amt)
       worker = Worker.find_by(id: worker_id)
-      return unless worker.present?
+      return unless worker.present? && amt.positive?
 
-      worker["#{old_eval}_s1_count"] = worker["#{old_eval}_s1_count"] - 1 if old_eval.present?
-      worker["#{new_eval}_s1_count"] = worker["#{new_eval}_s1_count"] + 1
+      worker["#{old_eval}_s1_count"] = worker["#{old_eval}_s1_count"] - amt if old_eval.present?
+      worker["#{new_eval}_s1_count"] = worker["#{new_eval}_s1_count"] + amt
       worker.save
     end
 
