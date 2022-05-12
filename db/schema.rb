@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_034917) do
+ActiveRecord::Schema.define(version: 2022_05_12_040646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,9 @@ ActiveRecord::Schema.define(version: 2022_05_06_034917) do
     t.string "passage"
     t.string "question"
     t.string "eval"
+    t.bigint "validator_id"
     t.index ["article_id"], name: "index_hits_on_article_id"
+    t.index ["validator_id"], name: "index_hits_on_validator_id"
     t.index ["worker_id"], name: "index_hits_on_worker_id"
   end
 
@@ -54,8 +56,14 @@ ActiveRecord::Schema.define(version: 2022_05_06_034917) do
     t.bigint "article_id"
     t.string "patterns", default: ""
     t.integer "retrieved", default: 0
-    t.string "state", default: "unchecked"
     t.index ["article_id"], name: "index_passages_on_article_id"
+  end
+
+  create_table "validators", force: :cascade do |t|
+    t.integer "count"
+    t.string "username"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "workers", force: :cascade do |t|
@@ -77,6 +85,7 @@ ActiveRecord::Schema.define(version: 2022_05_06_034917) do
   add_foreign_key "explanations", "hits"
   add_foreign_key "explanations", "workers"
   add_foreign_key "hits", "articles"
+  add_foreign_key "hits", "validators"
   add_foreign_key "hits", "workers"
   add_foreign_key "passages", "articles"
 end
