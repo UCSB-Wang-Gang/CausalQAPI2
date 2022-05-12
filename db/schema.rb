@@ -76,10 +76,12 @@ ActiveRecord::Schema.define(version: 2022_05_12_040646) do
     t.decimal "grammar_score"
     t.boolean "qualified", default: false
     t.string "checked_status", default: "unchecked"
+    t.string "feedback"
     t.integer "explanation_submits", default: 0
     t.integer "explanations_since_check", default: 0
     t.integer "bad_s1_count", default: 0
     t.string "bump2", default: "unchecked"
+    t.integer "good_s1_count", default: 0
   end
 
   add_foreign_key "explanations", "hits"
