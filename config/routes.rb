@@ -25,5 +25,7 @@ Rails.application.routes.draw do
     get '/get_passage', action: :return_passage, controller: :passage
     get '/count_passages', action: :count_passages, controller: :passage
     post '/add_passage', action: :add_passage, controller: :passage
+
+    get '/leaderboard', action: :leaderboard, controller: :validator
   end
 end
