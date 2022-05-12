@@ -69,7 +69,7 @@ module Api
     def evaluate_hit(hit, eval_status, validator_username)
       hit.eval = eval_status
       validator = Validator.find_by(username: validator_username)
-      Validator.create(username: validator_username, count: 0) unless validator.present?
+      validator = Validator.create(username: validator_username, count: 0) unless validator.present?
 
       validator.count = validator.count + 1
       validator.save
