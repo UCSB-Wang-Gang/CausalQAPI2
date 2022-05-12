@@ -29,12 +29,12 @@ module Api
     end
 
     def return_hit
-      candidates = Hit.where.missing(:explanation)
-      candidates = candidates.where(eval: params[:eval_status] == 'null' ? nil : params[:eval_status])
-      hit = candidates.order(Arel.sql('RANDOM()')).first
+      hit = hit_getter_helper(params[:eval_status])
       return render json: { error: 'no hits found' }, status: :not_found unless hit.present?
 
-      render json: { hit: hit, article: Article.find(hit.article_id) }
+      result = { hit: hit, article: Article.find(hit.article_id) }
+      result[:worker] = Worker.find(hit.worker_id) if params.key?(:show_worker_stats)
+      render json: result
     end
 
     def return_s1_info
@@ -43,6 +43,7 @@ module Api
         no_exp: Hit.where.missing(:explanation).count,
         good: Hit.where(eval: 'good').count,
         bad: Hit.where(eval: 'bad').count,
+        good_no_exp: Hit.where(eval: 'good').where.missing(:explanation).count,
         total_eval: Hit.where.not(eval: nil).count
       }
     end
@@ -51,8 +52,16 @@ module Api
       hit = Hit.find_by(id: params[:hit_id])
       return render json: { error: 'hit not found' } unless hit.present?
 
-      handle_bad_count_update(hit.worker_id, hit.eval, params[:new_eval_field])
+      update_worker_s1_counts(hit.worker_id, hit.eval, params[:new_eval_field], 1)
       render json: evaluate_hit(hit, params[:new_eval_field], hit_params[:validator_username])
+    end
+
+    def eval_all_s1_by
+      hits = Hit.where(worker_id: params[:worker_id], eval: nil)
+      num = hits.count
+      hits.update_all(eval: params[:new_status])
+      update_worker_s1_counts(params[:worker_id], nil, params[:new_status], num)
+      render json: { num_eval: num }
     end
 
     private
@@ -71,16 +80,18 @@ module Api
       hit
     end
 
-    def handle_bad_count_update(worker_id, old_eval, new_eval)
+    def hit_getter_helper(eval_status)
+      candidates = Hit.where.missing(:explanation)
+      candidates = candidates.where(eval: eval_status == 'null' ? nil : eval_status)
+      candidates.order(Arel.sql('RANDOM()')).first
+    end
+
+    def update_worker_s1_counts(worker_id, old_eval, new_eval, amt)
       worker = Worker.find_by(id: worker_id)
-      return unless worker.present?
+      return unless worker.present? && amt.positive?
 
-      if old_eval == 'bad' && new_eval != 'bad'
-        worker.bad_s1_count = worker.bad_s1_count - 1
-      elsif old_eval != 'bad' && new_eval == 'bad'
-        worker.bad_s1_count = worker.bad_s1_count + 1
-      end
-
+      worker["#{old_eval}_s1_count"] = worker["#{old_eval}_s1_count"] - amt if old_eval.present?
+      worker["#{new_eval}_s1_count"] = worker["#{new_eval}_s1_count"] + amt
       worker.save
     end
 
