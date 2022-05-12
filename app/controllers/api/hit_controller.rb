@@ -52,12 +52,24 @@ module Api
       return render json: { error: 'hit not found' } unless hit.present?
 
       handle_bad_count_update(hit.worker_id, hit.eval, params[:new_eval_field])
-      hit.eval = params[:new_eval_field]
-      hit.save
-      render json: hit
+      render json: evaluate_hit(hit, params[:new_eval_field], hit_params[:validator_username])
     end
 
     private
+
+    def evaluate_hit(hit, eval_status, validator_username)
+      hit.eval = eval_status
+      validator = Validator.find_by(username: validator_username)
+      Validator.create(username: validator_username, count: 0) unless validator.present?
+
+      validator.count = validator.count + 1
+      validator.save
+
+      hit.validator_id = validator.id
+      hit.save
+
+      hit
+    end
 
     def handle_bad_count_update(worker_id, old_eval, new_eval)
       worker = Worker.find_by(id: worker_id)
@@ -84,7 +96,7 @@ module Api
 
     def hit_params
       params.require(:hit).permit(:assignment_id, :worker_id, :article, :passage,
-                                  :cause, :effect, :question, :passage_id)
+                                  :cause, :effect, :question, :passage_id, :validator_username)
     end
 
     def create_article(article_title)
