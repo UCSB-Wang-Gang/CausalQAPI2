@@ -52,7 +52,7 @@ module Api
       hit = Hit.find_by(id: params[:hit_id])
       return render json: { error: 'hit not found' } unless hit.present?
 
-      handle_bad_count_update(hit.worker_id, hit.eval, params[:new_eval_field])
+      update_worker_s1_counts(hit.worker_id, hit.eval, params[:new_eval_field], 1)
       render json: evaluate_hit(hit, params[:new_eval_field], hit_params[:validator_username])
     end
 
