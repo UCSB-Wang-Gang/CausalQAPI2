@@ -37,6 +37,18 @@ module Api
       render json: result
     end
 
+    def s1_get_by_worker_unmarked
+      # choose random hit from worker with most unmarked hits
+      worker = Worker.find_by_sql("
+        SELECT * FROM workers
+        ORDER BY (hit_submits - good_s1_count - bad_s1_count) DESC
+      ").first
+      render json: {
+        hit: Hit.where(worker_id: worker.id, eval: nil).sample,
+        worker: worker
+      }
+    end
+
     def return_s1_info
       render json: {
         total: Hit.all.count,
@@ -83,7 +95,7 @@ module Api
     def hit_getter_helper(eval_status)
       candidates = Hit.where.missing(:explanation)
       candidates = candidates.where(eval: eval_status == 'null' ? nil : eval_status)
-      candidates.order(Arel.sql('RANDOM()')).first
+      candidates.sample
     end
 
     def update_worker_s1_counts(worker_id, old_eval, new_eval, amt)
