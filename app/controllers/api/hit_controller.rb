@@ -43,8 +43,10 @@ module Api
         SELECT * FROM workers
         ORDER BY (hit_submits - good_s1_count - bad_s1_count) DESC
       ").first
+      hit =  Hit.where(worker_id: worker.id, eval: nil).sample
       render json: {
-        hit: Hit.where(worker_id: worker.id, eval: nil).sample,
+        hit: hit,
+        article: Article.find(hit.article_id),
         worker: worker
       }
     end
