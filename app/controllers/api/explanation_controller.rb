@@ -17,12 +17,14 @@ module Api
       worker = Worker.find_by(worker_id: params[:worker_id])
       return render json: { error: 'worker not found' } unless worker.present?
 
-      explanations = Explanation.where(worker_id: worker.id)
-      if explanations.present?
-        render json: explanations
-      else
-        render json: { error: 'no explanations associated with worker_id' }, status: :not_found
-      end
+      render json: Worker.connection.execute("
+        SELECT
+          exp.explanation, exp.assignment_id, exp.hit_id, exp.worker_id,
+          hits.cause, hits.effect, hits.passage
+        FROM explanations AS exp
+        INNER JOIN hits ON exp.hit_id = hits.id
+        WHERE exp.worker_id = '#{worker.id}';
+      ")
     end
 
     private
