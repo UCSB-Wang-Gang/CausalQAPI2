@@ -82,5 +82,15 @@ module Api
 
       render json: { worker_info: worker }
     end
+
+    def reset_worker_hit_count
+      worker = Worker.find_by(worker_id: params[:worker_id])
+      worker.submits = 0
+      worker.hits_since_check = 0
+      worker.bad_s1_count = 0
+      worker.good_s1_count = 0
+      worker.save
+      render json: worker
+    end
   end
 end
