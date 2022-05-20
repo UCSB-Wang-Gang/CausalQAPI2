@@ -2,4 +2,5 @@
 
 class Validator < ApplicationRecord
   has_many :hits
+  has_many :explanations
 end
