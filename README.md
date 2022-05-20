@@ -57,8 +57,12 @@ List of endpoints with their functionalities.
   - Returns an explanation from the worker with the most unchecked explanations
 - **POST** `/api/eval_hit/:hit_id/:new_eval_field`
   - Assigns the `new_eval_field` to the given `hit_id`
+- **POST** `/api/eval_explanation/:explanation_id/:new_eval_field`
+  - Assigns the `new_eval_field` to the given `explanation_id`
 - **POST** `/api/eval_all_s1_by/:worker_id/:new_status`
   - Assigns all hits from the given `worker_id` to the given `new_status`
+- **POST** `/api/eval_all_s2_by/:worker_id/:new_status`
+  - Assigns all explanations from the given `worker_id` to the given `new_status`
 - **POST** `/api/reset_last_check/hits/:worker_id`
   - Resets the number of hits submitted since last check for the given `worker_id`
 - **POST** `/api/reset_last_check/explanations/:worker_id`
