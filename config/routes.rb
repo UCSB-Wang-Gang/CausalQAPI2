@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     post '/qualify_worker/:worker_id/:quiz_attempts', action: :qualify_worker, controller: :worker
     post '/update_checked_status/:stage_num/:worker_id/:new_status', action: :update_checked_status, controller: :worker
     post '/reset_worker_hit_count/:worker_id', action: :reset_worker_hit_count, controller: :worker
+    post '/reset_top_worker_hit_count', action: :reset_top_worker_hit_count, controller: :worker
 
     get '/get_passage', action: :return_passage, controller: :passage
     get '/count_passages', action: :count_passages, controller: :passage
