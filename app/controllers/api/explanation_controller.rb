@@ -31,7 +31,6 @@ module Api
       worker = Worker.find_by_sql("
         SELECT * FROM workers ORDER BY (explanation_submits - good_s2_count - bad_s2_count) DESC
       ").first
-      hit = Hit.find(explanation.hit_id)
       explanation = Explanation.where(worker_id: worker.id, eval: nil).sample
       hit = Hit.find(explanation.hit_id)
       return render json: { error: 'no unevaluated explanations' } unless explanation.present?
