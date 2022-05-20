@@ -4,6 +4,9 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   Enabled: false
 
+Metrics/MethodLength:
+  Enabled: false
+
 AllCops:
   Exclude:
     - 'bin/bundle'
