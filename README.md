@@ -51,6 +51,10 @@ List of endpoints with their functionalities.
   - Returns the workers who have been blocked by our speed bumping mechanism on our stage 2 task
 - **GET** `/api/leaderboard`
   - Returns the validator's leaderboard
+- **GET** `/api/get_s1_ordered`
+  - Returns an hit from the worker with the most unchecked hits
+- **GET** `/api/get_s2_ordered`
+  - Returns an explanation from the worker with the most unchecked explanations
 - **POST** `/api/eval_hit/:hit_id/:new_eval_field`
   - Assigns the `new_eval_field` to the given `hit_id`
 - **POST** `/api/eval_all_s1_by/:worker_id/:new_status`

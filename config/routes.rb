@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     post '/eval_all_s1_by/:worker_id/:new_status', action: :eval_all_s1_by, controller: :hit
 
     get '/get_explanations/:worker_id', action: :worker_explanations, controller: :explanation
+    get '/get_s2_ordered', action: :s2_get_by_worker_unmarked, controller: :explanation
     post '/add_explanation', action: :add_explanation, controller: :explanation
 
     get '/get_top_k/:num_workers/:criteria', action: :review_top_k, controller: :worker

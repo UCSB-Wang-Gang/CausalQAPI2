@@ -27,6 +27,19 @@ module Api
       ")
     end
 
+    def s2_get_by_worker_unmarked
+      worker = Worker.find_by_sql("
+        SELECT * FROM workers
+        ORDER BY (explanation_submits - good_s2_count - bad_s2_count) DESC
+      ").first
+      explanation = Explanation.where(worker_id: worker.id, eval: nil).sample
+      render json: {
+        explanation: explanation,
+        article: Article.find(Hit.find(hit_id).article_id),
+        worker: worker
+      }
+    end
+
     private
 
     def increase_submission_count(worker)
