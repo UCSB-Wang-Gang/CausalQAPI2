@@ -27,7 +27,60 @@ module Api
       ")
     end
 
+    def s2_get_by_worker_unmarked
+      worker = Worker.find_by_sql("
+        SELECT * FROM workers ORDER BY (explanation_submits - good_s2_count - bad_s2_count) DESC
+      ").first
+      explanation = Explanation.where(worker_id: worker.id, eval: nil).sample
+      return render json: { error: 'no unevaluated explanations' } unless explanation.present?
+
+      render json: {
+        explanation: explanation,
+        article: Article.find(Hit.find(explanation.hit_id).article_id),
+        worker: worker
+      }
+    end
+
+    def update_explanation_eval
+      explanation = Explanation.find_by(id: params[:explanation_id])
+      return render json: { error: 'explanation not found' } unless explanation.present?
+
+      update_worker_s2_counts(explanation.worker_id, explanation.eval, params[:new_eval_field], 1)
+      render json: evaluate_explanation(explanation, params[:new_eval_field], explanation_params[:validator_username])
+    end
+
+    def eval_all_s2_by
+      explanations = Explanation.where(worker_id: params[:worker_id], eval: nil)
+      num = explanations.count
+      explanations.update_all(eval: params[:new_status])
+      update_worker_s2_counts(params[:worker_id], nil, params[:new_status], num)
+      render json: { num_eval: num }
+    end
+
     private
+
+    def evaluate_explanation(explanation, eval_status, validator_username)
+      explanation.eval = eval_status
+      validator = Validator.find_by(username: validator_username)
+      validator = Validator.create(username: validator_username, count: 0) unless validator.present?
+
+      validator.count = validator.count + 1
+      validator.save
+
+      explanation.validator_id = validator.id
+      explanation.save
+
+      explanation
+    end
+
+    def update_worker_s2_counts(worker_id, old_eval, new_eval, amt)
+      worker = Worker.find_by(id: worker_id)
+      return unless worker.present? && amt.positive?
+
+      worker["#{old_eval}_s2_count"] = worker["#{old_eval}_s2_count"] - amt if old_eval.present?
+      worker["#{new_eval}_s2_count"] = worker["#{new_eval}_s2_count"] + amt
+      worker.save
+    end
 
     def increase_submission_count(worker)
       worker.explanation_submits = worker.explanation_submits + 1
@@ -50,7 +103,7 @@ module Api
     end
 
     def explanation_params
-      params.require(:explanation).permit(:explanation, :worker_id, :hit_id, :assignment_id)
+      params.require(:explanation).permit(:explanation, :worker_id, :hit_id, :assignment_id, :validator_username)
     end
   end
 end

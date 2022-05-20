@@ -40,10 +40,11 @@ module Api
     def s1_get_by_worker_unmarked
       # choose random hit from worker with most unmarked hits
       worker = Worker.find_by_sql("
-        SELECT * FROM workers
-        ORDER BY (hit_submits - good_s1_count - bad_s1_count) DESC
+        SELECT * FROM workers ORDER BY (hit_submits - good_s1_count - bad_s1_count) DESC
       ").first
-      hit =  Hit.where(worker_id: worker.id, eval: nil).sample
+      hit = Hit.where(worker_id: worker.id, eval: nil).sample
+      return render json: { error: 'no unevaluated hit' } unless hit.present?
+
       render json: {
         hit: hit,
         article: Article.find(hit.article_id),

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_12_040646) do
+ActiveRecord::Schema.define(version: 2022_05_20_070134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,10 @@ ActiveRecord::Schema.define(version: 2022_05_12_040646) do
     t.string "assignment_id"
     t.bigint "worker_id"
     t.bigint "hit_id"
+    t.string "eval"
+    t.bigint "validator_id"
     t.index ["hit_id"], name: "index_explanations_on_hit_id"
+    t.index ["validator_id"], name: "index_explanations_on_validator_id"
     t.index ["worker_id"], name: "index_explanations_on_worker_id"
   end
 
@@ -76,15 +79,17 @@ ActiveRecord::Schema.define(version: 2022_05_12_040646) do
     t.decimal "grammar_score"
     t.boolean "qualified", default: false
     t.string "checked_status", default: "unchecked"
-    t.string "feedback"
     t.integer "explanation_submits", default: 0
     t.integer "explanations_since_check", default: 0
     t.integer "bad_s1_count", default: 0
     t.string "bump2", default: "unchecked"
     t.integer "good_s1_count", default: 0
+    t.integer "good_s2_count", default: 0
+    t.integer "bad_s2_count", default: 0
   end
 
   add_foreign_key "explanations", "hits"
+  add_foreign_key "explanations", "validators"
   add_foreign_key "explanations", "workers"
   add_foreign_key "hits", "articles"
   add_foreign_key "hits", "validators"
