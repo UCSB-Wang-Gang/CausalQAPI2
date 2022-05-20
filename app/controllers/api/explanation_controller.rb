@@ -33,6 +33,7 @@ module Api
       ").first
       hit = Hit.find(explanation.hit_id)
       explanation = Explanation.where(worker_id: worker.id, eval: nil).sample
+      hit = Hit.find(explanation.hit_id)
       return render json: { error: 'no unevaluated explanations' } unless explanation.present?
 
       render json: {
