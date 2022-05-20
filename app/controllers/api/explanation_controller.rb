@@ -29,11 +29,11 @@ module Api
 
     def s2_get_by_worker_unmarked
       worker = Worker.find_by_sql("
-        SELECT * FROM workers
-        ORDER BY (explanation_submits - good_s2_count - bad_s2_count) DESC
+        SELECT * FROM workers ORDER BY (explanation_submits - good_s2_count - bad_s2_count) DESC
       ").first
       explanation = Explanation.where(worker_id: worker.id, eval: nil).sample
       return render json: { error: 'no unevaluated explanations' } unless explanation.present?
+
       render json: {
         explanation: explanation,
         article: Article.find(Hit.find(explanation.hit_id).article_id),
