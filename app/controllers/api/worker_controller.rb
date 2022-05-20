@@ -92,5 +92,16 @@ module Api
       worker.save
       render json: worker
     end
+
+    def reset_top_worker_hit_count
+      worker = Worker.find_by_sql('SELECT * FROM workers
+        ORDER BY (hit_submits - good_s1_count - bad_s1_count) DESC').first
+      worker.submits = 0
+      worker.hits_since_check = 0
+      worker.bad_s1_count = 0
+      worker.good_s1_count = 0
+      worker.save
+      render json: worker
+    end
   end
 end

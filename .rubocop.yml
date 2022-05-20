@@ -1,6 +1,9 @@
 Metrics/ClassLength:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
 AllCops:
   Exclude:
     - 'bin/bundle'

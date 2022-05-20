@@ -73,6 +73,8 @@ List of endpoints with their functionalities.
   - Adds a new passage to the database
 - **POST** `/api/reset_worker_hit_count/:worker_id`
   - Resets the hit counts and ALL other hit counting metrics of the given `worker_id`
+- **POST** `/api/reset_top_worker_hit_count`
+  - Resets the hit counts and ALL other hit counting metrics for the top worker
 
 ## 💡 Feature Requests
 If more features are needed, please open an issue on this repository. 
