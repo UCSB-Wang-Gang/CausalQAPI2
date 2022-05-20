@@ -17,7 +17,7 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ```
 
 ## ERD
-![ERD](https://i.imgur.com/YxPcsRO.png)
+![ERD](https://i.imgur.com/VILLbk8.png)
 
 ## 📍 Endpoints
 List of endpoints with their functionalities. 
