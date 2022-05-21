@@ -9,12 +9,14 @@ Rails.application.routes.draw do
     post '/add_hit', action: :add_hit, controller: :hit
     post '/eval_hit/:hit_id/:new_eval_field', action: :update_hit_eval, controller: :hit
     post '/eval_all_s1_by/:worker_id/:new_status', action: :eval_all_s1_by, controller: :hit
+    put '/edit_s1_hit', action: :edit_s1_hit, controller: :hit
 
     get '/get_explanations/:worker_id', action: :worker_explanations, controller: :explanation
     get '/get_s2_ordered', action: :s2_get_by_worker_unmarked, controller: :explanation
     post '/add_explanation', action: :add_explanation, controller: :explanation
     post '/eval_explanation/:explanation_id/:new_eval_field', action: :update_explanation_eval, controller: :explanation
     post '/eval_all_s2_by/:worker_id/:new_status', action: :eval_all_s2_by, controller: :explanation
+    put '/edit_s2_exp', action: :edit_s2_exp, controller: :explanation
 
     get '/get_top_k/:num_workers/:criteria', action: :review_top_k, controller: :worker
     get '/get_speed_bumped', action: :speed_bumped, controller: :worker
