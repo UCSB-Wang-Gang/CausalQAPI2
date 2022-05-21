@@ -79,6 +79,14 @@ module Api
       render json: { num_eval: num }
     end
 
+    def edit_s1_hit
+      hit = Hit.find_by(id: hit_params[:id])
+      hit.cause = hit_params[:cause]
+      hit.effect = hit_params[:effect]
+      hit.question = hit_params[:question]
+      hit.save
+    end
+
     private
 
     def evaluate_hit(hit, eval_status, validator_username)
@@ -121,7 +129,7 @@ module Api
     end
 
     def hit_params
-      params.require(:hit).permit(:assignment_id, :worker_id, :article, :passage,
+      params.require(:hit).permit(:assignment_id, :worker_id, :id, :article, :passage,
                                   :cause, :effect, :question, :passage_id, :validator_username)
     end
 
