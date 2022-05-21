@@ -81,10 +81,11 @@ module Api
 
     def edit_s1_hit
       hit = Hit.find_by(id: hit_params[:id])
-      hit.cause = hit_params[:cause]
-      hit.effect = hit_params[:effect]
-      hit.question = hit_params[:question]
+      hit.cause = hit_params[:cause] if hit_params[:cause].present?
+      hit.effect = hit_params[:effect] if hit_params[:effect].present?
+      hit.question = hit_params[:question] if hit_params[:question].present?
       hit.save
+      render json: hit
     end
 
     private
