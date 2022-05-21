@@ -56,6 +56,7 @@ module Api
       num = explanations.count
       explanations.update_all(eval: params[:new_status])
       update_worker_s2_counts(params[:worker_id], nil, params[:new_status], num)
+      Explanation.destroy_all(eval: 'bad') if params[:new_status] == 'bad'
       render json: { num_eval: num }
     end
 
@@ -72,7 +73,12 @@ module Api
       explanation.validator_id = validator.id
       explanation.save
 
-      explanation
+      if eval_status == 'bad'
+        Explanation.destroy(explanation.id)
+        'deleted explanation'
+      else
+        explanation
+      end
     end
 
     def update_worker_s2_counts(worker_id, old_eval, new_eval, amt)
