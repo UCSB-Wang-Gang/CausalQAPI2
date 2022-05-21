@@ -60,6 +60,12 @@ module Api
       render json: { num_eval: num }
     end
 
+    def edit_s2_exp
+      explanation = Explanation.find_by(id: explanation_params[:id])
+      explanation.explanation = explanation_params[:explanation]
+      explanation.save
+    end
+
     private
 
     def evaluate_explanation(explanation, eval_status, validator_username)
@@ -111,7 +117,7 @@ module Api
     end
 
     def explanation_params
-      params.require(:explanation).permit(:explanation, :worker_id, :hit_id, :assignment_id, :validator_username)
+      params.require(:explanation).permit(:id, :explanation, :worker_id, :hit_id, :assignment_id, :validator_username)
     end
   end
 end
