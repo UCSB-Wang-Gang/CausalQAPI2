@@ -66,6 +66,16 @@ module Api
       explanation.save
     end
 
+    def exp_metrics
+      render json: {
+        total_exp: Explanation.all.count,
+        missing_exp: Hit.where(eval: 'good').where.missing(:explanation).count,
+        good: Explanation.where(eval: 'good').count,
+        bad: Explanation.where(eval: 'bad').count,
+        total_eval: Explanation.where.not(eval: nil).count
+      }
+    end
+
     private
 
     def evaluate_explanation(explanation, eval_status, validator_username)
