@@ -64,6 +64,10 @@ module Api
       explanation = Explanation.find_by(id: explanation_params[:id])
       explanation.explanation = explanation_params[:explanation]
       explanation.save
+      hit = Hit.find_by(id: explanation.hit_id)
+      hit.cause = explanation_params[:cause]
+      hit.effect = explanation_params[:effect]
+      hit.save
     end
 
     def exp_metrics
@@ -127,7 +131,8 @@ module Api
     end
 
     def explanation_params
-      params.require(:explanation).permit(:id, :explanation, :worker_id, :hit_id, :assignment_id, :validator_username)
+      params.require(:explanation).permit(:id, :explanation, :worker_id, :hit_id, :assignment_id, :validator_username,
+                                          :cause, :effect)
     end
   end
 end
