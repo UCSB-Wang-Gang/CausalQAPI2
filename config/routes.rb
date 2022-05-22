@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     post '/eval_explanation/:explanation_id/:new_eval_field', action: :update_explanation_eval, controller: :explanation
     post '/eval_all_s2_by/:worker_id/:new_status', action: :eval_all_s2_by, controller: :explanation
     put '/edit_s2_exp', action: :edit_s2_exp, controller: :explanation
+    get '/get_exp_metrics', action: :exp_metrics, controller: :explanation
 
     get '/get_top_k/:num_workers/:criteria', action: :review_top_k, controller: :worker
     get '/get_speed_bumped', action: :speed_bumped, controller: :worker
