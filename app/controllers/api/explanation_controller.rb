@@ -29,7 +29,7 @@ module Api
 
     def s2_get_by_worker_unmarked
       worker = Worker.find_by_sql("
-        SELECT * FROM workers ORDER BY (explanation_submits - good_s2_count - bad_s2_count) DESC
+        SELECT * FROM workers ORDER BY (explanation_submits - good_s2_count - bad_s2_count - ok_s2_count) DESC
       ").first
       explanation = Explanation.where(worker_id: worker.id, eval: nil).sample
       hit = Hit.find(explanation.hit_id)
@@ -104,8 +104,6 @@ module Api
     def update_worker_s2_counts(worker_id, old_eval, new_eval, amt)
       worker = Worker.find_by(id: worker_id)
       return unless worker.present? && amt.positive?
-
-      new_eval = 'good' if new_eval == 'ok'
 
       worker["#{old_eval}_s2_count"] = worker["#{old_eval}_s2_count"] - amt if old_eval.present?
       worker["#{new_eval}_s2_count"] = worker["#{new_eval}_s2_count"] + amt
