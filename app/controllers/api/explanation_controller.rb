@@ -105,6 +105,8 @@ module Api
       worker = Worker.find_by(id: worker_id)
       return unless worker.present? && amt.positive?
 
+      new_eval = 'good' if new_eval == 'ok'
+
       worker["#{old_eval}_s2_count"] = worker["#{old_eval}_s2_count"] - amt if old_eval.present?
       worker["#{new_eval}_s2_count"] = worker["#{new_eval}_s2_count"] + amt
       worker.save
