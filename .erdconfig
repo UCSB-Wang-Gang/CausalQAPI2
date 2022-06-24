@@ -1,3 +1,4 @@
+title: CausalQAPI ERD
 exclude:
     - ActiveRecord::InternalMetadata
     - ActiveRecord::SchemaMigration
