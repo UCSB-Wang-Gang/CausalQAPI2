@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_20_070134) do
+ActiveRecord::Schema.define(version: 2022_06_24_075627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,13 +71,10 @@ ActiveRecord::Schema.define(version: 2022_05_20_070134) do
 
   create_table "workers", force: :cascade do |t|
     t.string "worker_id"
-    t.integer "quiz_attempts"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "hit_submits", default: 0
     t.integer "hits_since_check", default: 0
-    t.decimal "grammar_score"
-    t.boolean "qualified", default: false
     t.string "checked_status", default: "unchecked"
     t.integer "explanation_submits", default: 0
     t.integer "explanations_since_check", default: 0
@@ -86,6 +83,7 @@ ActiveRecord::Schema.define(version: 2022_05_20_070134) do
     t.integer "good_s1_count", default: 0
     t.integer "good_s2_count", default: 0
     t.integer "bad_s2_count", default: 0
+    t.integer "ok_s2_count", default: 0
   end
 
   add_foreign_key "explanations", "hits"
