@@ -17,7 +17,7 @@ export POSTGRESQL_PASSWORD=YOUR_PASSWORD
 ```
 
 ## ERD
-![ERD](https://i.imgur.com/VILLbk8.png)
+![ERD](https://i.imgur.com/wpnsL0u.png)
 
 ## 📍 Endpoints
 List of endpoints with their functionalities. 
@@ -69,12 +69,18 @@ List of endpoints with their functionalities.
   - Resets the number of explanations submitted since last check for the given `worker_id`
 - **POST** `/api/update_checked_status/:stage_num/:worker_id/:new_status`
   - Assigns the `new_status` to the given `worker_id` for the given `stage_num`
+- **PUT** `/edit_s1_hit`
+  - Enables edits for stage 1 hits
+- **PUT** `/edit_s2_exp`
+  - Enables edits for stage 2 explanations
 
 ### ⚙️ Miscellaneous/Deprecated
 - **GET** `/`
   - Landing page test
 - **GET** `/api/count_passages`
   - Returns number of passages
+- **GET** `/api/get_exp_metrics`
+  - Returns metrics for explanations
 - **POST** `/api/qualify_worker/:worker_id/:quiz_attempts`
   - Qualifies the given `worker_id` and saves its `quiz_attempts`
 - **POST** `/api/add_passage`
